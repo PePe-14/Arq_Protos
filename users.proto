@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package users;
+
+service UserService {
+  rpc CreateUser(CreateUserRequest) returns (User);
+  rpc FindAllUsers(Empty) returns (UserList);
+  rpc FindOneUser(FindUserRequest) returns (User);
+  rpc UpdateUser(UpdateUserRequest) returns (User);
+  rpc DeleteUser(DeleteUserRequest) returns (Empty);
+  rpc ValidateUser(ValidateUserRequest) returns (ValidateUserResponse);
+}
+
+message User {
+    string name = 1;
+    string username = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message UserDTO {
+  string username = 1;
+  string password = 2;
+}
+
+message CreateUserRequest {
+  UserDTO user = 1;
+}
+
+message UserList {
+  repeated User users = 1;
+}
+
+message FindUserRequest {
+  string id = 1;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  UserDTO user = 2;
+}
+
+message DeleteUserRequest {
+  string id = 1;
+}
+
+message ValidateUserRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message ValidateUserResponse {
+  User user = 1;
+}
+
+message Empty {}
