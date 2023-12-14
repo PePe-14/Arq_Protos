@@ -16,7 +16,8 @@ message CreateUserRequest {
 }
 
 message CreateUserResponse {
-  User user = 1;
+  string message = 1;
+  string error = 2;
 }
 
 message FindOneUserRequest {
@@ -24,7 +25,8 @@ message FindOneUserRequest {
 }
 
 message FindOneUserResponse {
-  User user = 1;
+  string message = 1;
+  string error = 2;
 }
 
 message DeleteUserRequest {
