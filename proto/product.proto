@@ -3,47 +3,58 @@ syntax = "proto3";
 package products;
 
 service ProductService {
-  rpc CreateProduct(CreateProductRequest) returns (Product);
-  rpc FindAllProducts(Empty) returns (ProductList);
-  rpc FindOneProduct(FindProductRequest) returns (Product);
-  rpc UpdateProduct(UpdateProductRequest) returns (Product);
-  rpc DeleteProduct(DeleteProductRequest) returns (Empty);
+    rpc AddProduct(AddProductRequest) returns (AddProductResponse) {}
+    rpc GetProductById(getProductByIdRequest) returns (getProductByIdResponse) {}
+    rpc GetAllProducts(Empty) returns (GetAllProductsResponse) {}
+    rpc DeleteProductById(DeleteProductByIdRequest) returns (DeleteProductByIdResponse) {}
 }
 
-message Product {
+message Empty{}
+
+
+message Error{
+  string message = 1;
+}
+
+message Product{
   string id = 1;
   string name = 2;
-  string description = 3;
-  float price = 4;
-  // Add additional product fields here...
+  int32 price = 3;
 }
 
-message ProductDTO {
+message AddProductRequest{
   string name = 1;
-  string description = 2;
-  float price = 3;
-  // Add additional product fields here...
+  int32 price = 2;
 }
 
-message CreateProductRequest {
-  ProductDTO product = 1;
+message AddProductResponse{
+  Product product = 1;
+  Error error = 2;
 }
 
-message ProductList {
-  repeated Product products = 1;
+message getProductByIdRequest {
+    string id = 1;
 }
 
-message FindProductRequest {
-  string id = 1;
+message getProductByIdResponse{
+    Product product = 1;
+    Error error = 2;
 }
 
-message UpdateProductRequest {
-  string id = 1;
-  ProductDTO product = 2;
+message GetAllProductsResponse{
+    repeated Product products = 1;
+    Error error = 2;
 }
 
-message DeleteProductRequest {
-  string id = 1;
+message getProductsByIdsRequest{
+    repeated string ids = 1;
 }
 
-message Empty {}
+message DeleteProductByIdRequest{
+    string id = 1;
+}
+
+message DeleteProductByIdResponse{
+    bool isDeleted = 1;
+    Error error = 2;
+}
