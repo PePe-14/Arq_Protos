@@ -2,31 +2,29 @@ syntax = "proto3";
 
 package users;
 
-message CreateUserDto {
-  string username = 1;
-  string password = 2;
-  string email = 3;
-}
-
 message User {
+  string id = 1;
+  string username = 2;
+  string password = 3;
+  string email = 4;
+}
+
+message CreateUserRequest {
   string username = 1;
   string password = 2;
   string email = 3;
 }
 
-service UserService {
-  rpc FindAll (Empty) returns (UserList);
-  rpc CreateUser (CreateUserDto) returns (User);
-  rpc FindById (FindUserRequest) returns (User);
-  rpc DeleteById (DeleteUserRequest) returns (DeleteUserResponse);
+message CreateUserResponse {
+  User user = 1;
 }
 
-message UserList {
-  repeated User users = 1;
-}
-
-message FindUserRequest {
+message FindOneUserRequest {
   string id = 1;
+}
+
+message FindOneUserResponse {
+  User user = 1;
 }
 
 message DeleteUserRequest {
@@ -37,4 +35,8 @@ message DeleteUserResponse {
   bool success = 1;
 }
 
-message Empty {}
+service UserService {
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc FindOneUser(FindOneUserRequest) returns (FindOneUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+}
