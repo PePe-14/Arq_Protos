@@ -1,48 +1,72 @@
 syntax = "proto3";
 
 package orders;
-  
+
 service OrderService {
-  rpc CreateOrder(CreateOrderRequest) returns (Order);
-  rpc FindAllOrders(Empty) returns (OrderList);
-  rpc FindOneOrder(FindOrderRequest) returns (Order);
-  rpc UpdateOrder(UpdateOrderRequest) returns (Order);
-  rpc DeleteOrder(DeleteOrderRequest) returns (Empty);
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+  rpc GetAllOrders(Empty) returns (GetAllOrdersResponse);
+  rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse);
+}
+
+
+message Empty{}
+
+
+message Error{
+  string message = 1;
+}
+
+message User {
+  string id = 1;
+  string username = 2;
+  string password = 3;
+  string email = 4;
+}
+
+message Product {
+  string id = 1;
+  string name = 2;
+  int32 price = 3;
 }
 
 message Order {
   string id = 1;
-  string customer_id = 2;
-  string items = 3; 
-  float total_price = 4;
-  string status = 5; 
-}
-
-message OrderDTO {
-  string customer_id = 1;
-  string items = 2; // El mismo formato del Order message
-  float total_price = 3;
+  User user = 2;
+  Product product = 3;
 }
 
 message CreateOrderRequest {
-  OrderDTO order = 1;
+  User user = 1;
+  Product product = 2;
 }
 
-message OrderList {
+message CreateOrderResponse {
+  Order order = 1;
+  string message = 2;
+}
+
+message GetOrderRequest {
+  string orderId = 1;
+}
+
+message GetOrderResponse {
+  Order order = 1;
+  string message = 2;
+}
+
+message GetAllOrdersResponse {
   repeated Order orders = 1;
-}
-
-message FindOrderRequest {
-  string id = 1;
-}
-
-message UpdateOrderRequest {
-  string id = 1;
-  OrderDTO order = 2;
+  string message = 2;
 }
 
 message DeleteOrderRequest {
-  string id = 1;
+  string orderId = 1;
 }
 
-message Empty {}
+message DeleteOrderResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+
