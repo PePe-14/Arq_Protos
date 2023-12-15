@@ -2,6 +2,21 @@ syntax = "proto3";
 
 package users;
 
+
+service UserService {
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+  rpc GetAllUsers(Empty) returns (GetAllUsersResponse) {}
+  rpc FindOneUser(FindOneUserRequest) returns (FindOneUserResponse) {}
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
+}
+
+
+message Empty {}
+
+message Error {
+    string message = 1;
+}
+
 message User {
   string id = 1;
   string username = 2;
@@ -10,36 +25,36 @@ message User {
 }
 
 message CreateUserRequest {
-  string username = 1;
-  string password = 2;
-  string email = 3;
+    string username = 1;
+    string password = 2;
+    string email = 3;
 }
 
 message CreateUserResponse {
-  string message = 1;
-  string error = 2;
+    User user = 1;
+    Error error = 2;
+}
+
+message GetAllUsersResponse {
+  repeated User users = 1;
+  Error error = 2;
 }
 
 message FindOneUserRequest {
-  string id = 1;
+    string id = 1;
 }
 
 message FindOneUserResponse {
-  string message = 1;
-  string error = 2;
+    User user = 1;
+    Error error = 2;
 }
 
 message DeleteUserRequest {
-  string id = 1;
+    string id = 1;
 }
 
 message DeleteUserResponse {
-  string message = 1;
-  string error = 2;
+    bool isDeleted = 1;
+    Error error = 2;
 }
 
-service UserService {
-  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
-  rpc FindOneUser(FindOneUserRequest) returns (FindOneUserResponse);
-  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
-}
