@@ -46,10 +46,6 @@ message GetAllProductsResponse{
     Error error = 2;
 }
 
-message getProductsByIdsRequest{
-    repeated string ids = 1;
-}
-
 message DeleteProductByIdRequest{
     string id = 1;
 }
